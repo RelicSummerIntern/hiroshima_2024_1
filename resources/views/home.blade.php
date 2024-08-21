@@ -23,16 +23,20 @@
                 </select>
             </div>
             <div class="left-row_2">
-                <a href="{{ route('home') }}" style="text-decoration: none;">
+                @for($i = 0; $i < 5; $i++)
+                    <a href="{{ route('home') }}" style="text-decoration: none;">
                     <div class="Recruitment_slot">
-                        <h2>犬を探してほしい</h2>
+                        <div style="text-align: center; width: 100%;">
+                            <h2>犬を探してほしい</h2>
+                        </div>
                         <div style="width: 100%; background-color: rgb(0, 0, 0); height: 2px;"></div>
-                        <h3>報酬：3000円</h3>
-                        <h3>残り時間</h3>
-                        <h3>場所：東京都渋谷区</h3>
+                        <h3 style="margin-left: 20px; ">報酬：3000円</h3>
+                        <h3 style="margin-left: 20px; ">残り時間</h3>
+                        <h3 style="margin-left: 20px; ">場所：東京都渋谷区</h3>
+                        <h5 style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></h5>
                     </div>
-                </a>
-
+                    </a>
+                    @endfor
             </div>
             <div class="left_line"></div>
             <div class="left-row_3">
