@@ -13,7 +13,7 @@
                     <!-- タイトル -->
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2">タイトル</label>
-                        <input type="text" name="title" id="title" maxlength="10" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
+                        <input type="text" name="title" id="title" maxlength="20" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
                     </div>
                     <!-- 本文 -->
                     <div class="mb-4">
@@ -30,8 +30,8 @@
                     </div>
                     <!-- タグ -->
                     <div class="mb-4">
-                        <label label for="tag_name" class="block text-gray-700 text-sm font-bold mb-2">タグ</label>
-                        <select name="tag_name" id="tag_name">
+                        <label label for="tag_id" class="block text-gray-700 text-sm font-bold mb-2">タグ</label>
+                        <select name="tag_id" id="tag_id">
                             <option value="1">手助け</option>
                             <option value="2">探し物</option>
                             <option value="3">その他</option>
@@ -43,9 +43,9 @@
                         <input type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
                     </div>
                     <!-- 期限 -->
-                    <div class="mb-4" style="width: 180px;">
+                    <div class="mb-4" style="width: 120px;">
                         <label for="deadline" class="block text-gray-700 text-sm font-bold mb-2">期限</label>
-                        <input type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">
+                        <input type="date" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">
                     </div>
                     <!-- ボタン -->
                     <div class="flex justify-end">
