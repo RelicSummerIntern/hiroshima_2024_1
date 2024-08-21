@@ -7,9 +7,18 @@
         </h2>
     </x-slot>
 
-    <!-- Google map -->
-    <div id="map" class="h-[840px] w-[80%] ml-auto">
+    <div class="main">
+        <div class="left-column">
+            <div class="left-row_1">周辺の依頼</div>
+            <div class="left-row_2">Left Row 2 (Scrollable Content)</div>
+            <div class="left-row_3">Left Row 3</div>
+        </div>
+        <div class="right-column">
+            <div id="map"></div>
+        </div>
     </div>
+
+    <!-- Google map -->
     <script src="{{ asset('/js/map.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyATCiHn-q2ufKqlPMJaRqCvdQoK3_5zJk0&callback=initMap" async defer></script>
 
