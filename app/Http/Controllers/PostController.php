@@ -21,6 +21,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        logger("test");
         $validatedData = $request->validate([
             'title' => 'required|string|max:10',
             'content' => 'required|text|max:200',
@@ -29,7 +30,7 @@ class PostController extends Controller
             'address' => 'required|string',
             'deadline' => 'required|date',
         ]);
-
+        
         $post = new Post();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
