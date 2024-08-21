@@ -19,8 +19,9 @@ class AcceptanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'post_id' => fake()->randomNumber(10) + 1,
-            'user_id' => fake()->randomNumber(10) + 1,
+            'id' => 1
+            'post_id' => 10,
+            'user_id' => 20,
             'is_completed' => False
         ];
     }
