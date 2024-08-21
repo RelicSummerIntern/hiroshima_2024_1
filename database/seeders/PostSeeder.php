@@ -19,13 +19,11 @@ class PostSeeder extends Seeder
 
         Post::factory()->create([
             'user_id' => $user->id,
-            'date' => now(),
             'address' => "OO市XX町"
         ]);
 
         Post::factory()->create([
             'user_id' => $user->id,
-            'date' => now(),
             'address' => "OO市XX町"
         ]);
     }
