@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\Acceptance;
-use App\Models\Post;
-use App\Models\User;
+use App\Models\PostTag;
 
-class AcceptanceSeeder extends Seeder
+class PostTagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,12 +16,15 @@ class AcceptanceSeeder extends Seeder
     public function run(): void
     {
         $post = Post::first();
-        $user = User::first();
 
-        Acceptance::create([
+        PostTag::create([
             'post_id' => $post->id,
-            'user_id' => $user->id,
-            'is_completed' => False
+            'tag_id' => 2,
+        ]);
+
+        PostTag::create([
+            'post_id' => $post->id,
+            'tag_id' => 3,
         ]);
     }
 }

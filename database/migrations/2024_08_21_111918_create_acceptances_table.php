@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 return new class extends Migration
 {
-    use HasFactory;
     /**
      * Run the migrations.
      */
