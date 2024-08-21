@@ -15,11 +15,17 @@
             <div class="left-row_1">周辺の依頼</div>
             <div class="left_line"></div>
             <div class="left_narrow_down">
-                <select name="category_id" id="category_id" class="form-control">
-                    <option value="">タグで条件絞り</option>
-                </select>
                 <select name="tag_id" id="tag_id" class="form-control">
-                    <option value="">新しい順</option>
+                    <option value="">タグで条件絞り</option>
+                    <option value="1">手助け</option>
+                    <option value="2">探し物</option>
+                    <option value="3">その他</option>
+                </select>
+                <select name="order" id="order" class="form-control">
+                    <option value="1">新しい順</option>
+                    <option value="2">古い順</option>
+                    <option value="3">高い順</option>
+                    <option value="4">安い順</option>
                 </select>
             </div>
             <div class="left-row_2">

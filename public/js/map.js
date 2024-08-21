@@ -69,31 +69,31 @@ function initMap() {
                       lng: position.coords.longitude,
                     };
                     map.setCenter(pos);
-
+                    map.setZoom(15);
                     // マーカーの位置を更新
                     marker.setPosition(pos);
                   },
                   () => {
-                    handleLocationError(true, map.getCenter());
+                    handleLocationError(true);
                   }
                 );
               } else {
                 // Browser doesn't support Geolocation
-                handleLocationError(false, map.getCenter());
+                handleLocationError(false);
               }
             });
         }, 
         function() {
             // 位置情報取得失敗の場合
-            handleLocationError(true, map.getCenter());
+            handleLocationError(true);
         });
     } else {
         // ブラウザが位置情報取得に対応していない場合
-        handleLocationError(false, map.getCenter());
+        handleLocationError(false);
     }
 }
 
-function handleLocationError(browserHasGeolocation, pos) {
+function handleLocationError(browserHasGeolocation) {
     // 問題が発生した場合、広島駅に移動
     map.setCenter(hiroshimaStation);
 
