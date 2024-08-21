@@ -21,14 +21,15 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        logger("test");
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'content' => 'required|string',
         ]);
-
+        
         $post = new Post();
         $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
+        $post->content = $validatedData['content'];
         $post->user_id = Auth::id();
         $post->save();
 

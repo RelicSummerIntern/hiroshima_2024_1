@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('投稿編集') }}
+            {{ __('依頼詳細') }}
         </h2>
     </x-slot>
 
@@ -15,25 +15,31 @@
                             @method('PATCH')
 
                             <div class="form-group row">
-                                <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('タイトル') }}</label>
-
+                                <!-- タイトル -->
                                 <div class="col-md-6">
-                                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $post->title) }}" required autocomplete="title" autofocus>
-
-                                    @error('title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <p id="body" class="form-control @error('body') is-invalid @enderror" name="content" required>{{ old('content', $post->content) }}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group row my-4">
-                                <label for="body" class="col-md-4 col-form-label text-md-right">{{ __('本文') }}</label>
+                            <div class="form-group my-4">    
+                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('内容') }}</p>
+                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+                            </div>
+                               
+
+                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('報酬') }}</p>
+                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+
+                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('タグ') }}</p>
+                                <p style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></p>  
+                            
+                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('住所') }}</p>
+                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+
+                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('期限') }}</p>
+                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
 
                                 <div class="col-md-6">
-                                    <textarea id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('body', $post->body) }}</textarea>
-
                                     @error('body')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -43,10 +49,17 @@
                             </div>
 
                             <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('変更を保存する') }}
-                                    </button>
+                                <div class="col-md-8 offset-md-4" style="margin: auto; display: flex; justify-content: space-around;">
+                                    <a href="{{ route('myposts') }}">
+                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px;">
+                                            {{ __('戻る') }}
+                                        </button>
+                                    </a>
+                                    <a href="{{ route('myposts') }}">
+                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px;">
+                                            {{ __('受諾') }}
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </form>
