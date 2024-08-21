@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\User;
+use App\Models\Post;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
@@ -19,10 +22,10 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->randomNumber(10) + 1,
-            'title' => fake()->sentence(1),
-            'content' => fake()->sentence(10),
-            'reward' => fake()->randomNumber(10000),
+            'user_id' => User::factory(),
+            'title' => $this->faker->sentence(1),
+            'content' => $this->faker->sentence(10),
+            'reward' => $this->faker->randomNumber(2),
             'date' => now(),
             'address' => "OO市XX町"
         ];
