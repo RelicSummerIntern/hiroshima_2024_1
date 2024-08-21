@@ -22,13 +22,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'title' => 'required|string|max:10',
+            'content' => 'required|text|max:200',
+            'reward' => 'required|integer',
+            'tag_name' => 'required|string',
+            'address' => 'required|string',
+            'deadline' => 'required|date',
         ]);
 
         $post = new Post();
         $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
+        $post->content = $validatedData['content'];
+        $post->reward = $validatedData['reward'];
+        $post->tag_name = $validatedData['tag_name'];
+        $post->address = $validatedData['address'];
+        $post->deadline = $validatedData['deadline'];
         $post->user_id = Auth::id();
         $post->save();
 
@@ -50,8 +58,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'title' => 'required|string|max:10',
+            'content' => 'required|text|max:200',
+            'reward' => 'required|integer',
+            'tag_name' => 'required|string',
+            'address' => 'required|string',
+            'deadline' => 'required|date',
         ]);
 
         $post = Post::findOrFail($id);
@@ -70,4 +82,3 @@ class PostController extends Controller
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
     }
 }
-
