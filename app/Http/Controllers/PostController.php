@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -23,30 +24,30 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:10',
+            'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            'tag_name' => 'required|string',
+            'tag_id' => 'required|integer',
             'address' => 'required|string',
             'deadline' => [
                 'required',
                 'date',
-                'after:' . now()->addMinutes(4),
+                'after:' . Carbon::now()->format('Y-m-d'),
             ],
         ]);
 
         $post = new Post();
-        $post->user_id = Auth::id();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
         $post->deadline = $validatedData['deadline'];
         $post->address = $validatedData['address'];
         $post->is_completed = '依頼中';
+        $post->user_id = Auth::id();
         $post->save();
 
         $posttag = new PostTag();
-        $posttag->tag_name = $validatedData['tag_name'];
+        $posttag->tag_id = $validatedData['tag_id'];
         $posttag->post_id = $post->id;
         $posttag->save();
 
