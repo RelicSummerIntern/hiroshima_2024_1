@@ -26,8 +26,9 @@ class PostFactory extends Factory
             'title' => $this->faker->sentence(1),
             'content' => $this->faker->sentence(10),
             'reward' => $this->faker->randomNumber(2),
-            'date' => now(),
-            'address' => "OO市XX町"
+            'deadline' => now(),
+            'address' => "OO市XX町",
+            'is_completed' => False
         ];
     }
 }

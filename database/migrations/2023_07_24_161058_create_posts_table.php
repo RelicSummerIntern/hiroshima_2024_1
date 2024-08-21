@@ -19,8 +19,9 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->integer('reward');
-            $table->date('date');
+            $table->date('deadline');
             $table->string('address');
+            $table->boolean('is_completed');
             
             $table->timestamps();
         });
