@@ -60,4 +60,4 @@ docker-compose exec laravel.test php artisan clear-compiled
 docker-compose exec laravel.test /bin/bash
 ```
 
-## 修正済み
+## 修正
