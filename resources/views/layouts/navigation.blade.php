@@ -44,9 +44,9 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();"
-                                                class="text-decoration-none">
+                                class="text-decoration-none">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -103,7 +103,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
