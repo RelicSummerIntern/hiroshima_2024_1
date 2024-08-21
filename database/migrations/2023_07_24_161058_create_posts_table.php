@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
             $table->integer('reward');
             $table->date('date');
             $table->string('address');
+            $table->boolean('is_completed');
             
             $table->timestamps();
         });
