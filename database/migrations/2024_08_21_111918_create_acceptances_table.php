@@ -6,29 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CreatePostsTable extends Migration
+return new class extends Migration
 {
-    use HasFactory;
-
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('acceptances', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');//関連づける
-            $table->string('title');
-            $table->text('content');
-            $table->integer('reward');
-            $table->date('deadline');
-            $table->string('address');
+            $table->BigInteger('post_id')->unsigned();
+            $table->foreign('post_id')->references('id')->on('posts');//関連づける
             $table->boolean('is_completed');
-            
             $table->timestamps();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('acceptances');
     }
-}
+};
