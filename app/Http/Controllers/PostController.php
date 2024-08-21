@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,22 +24,32 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:10',
-            'content' => 'required|text|max:200',
+            'content' => 'required|string|max:200',
             'reward' => 'required|integer',
             'tag_name' => 'required|string',
             'address' => 'required|string',
-            'deadline' => 'required|date',
+            'deadline' => [
+                'required',
+                'date',
+                'after:' . now()->addMinutes(4),
+            ],
         ]);
 
         $post = new Post();
+        $post->user_id = Auth::id();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
-        $post->tag_name = $validatedData['tag_name'];
-        $post->address = $validatedData['address'];
         $post->deadline = $validatedData['deadline'];
-        $post->user_id = Auth::id();
+        $post->address = $validatedData['address'];
+        $post->is_completed = '依頼中';
         $post->save();
+
+        $posttag = new PostTag();
+        $posttag->tag_name = $validatedData['tag_name'];
+        $posttag->post_id = $post->id;
+        $posttag->save();
+
 
         return redirect()->route('post.index')->with('success', '投稿が作成されました');
     }

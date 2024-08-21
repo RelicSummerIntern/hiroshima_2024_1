@@ -54,6 +54,11 @@
     </div>
 
     <!-- Google map -->
+    <script>
+        // トップページのURLをJavaScriptに渡す
+        var homeUrl = "{{ route('home') }}";
+        window.homeUrl = homeUrl;
+    </script>
     <script src="{{ asset('/js/map.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyATCiHn-q2ufKqlPMJaRqCvdQoK3_5zJk0&callback=initMap" async defer></script>
 
