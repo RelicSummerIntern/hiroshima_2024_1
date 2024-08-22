@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')" class="text-decoration-none text-xl font-extrabold">
+                    <x-nav-link :href="route('myaccepteds')" :active="request()->routeIs('myaccepteds')" class="text-decoration-none text-xl font-extrabold">
                         {{ __('受諾管理') }}
                     </x-nav-link>
                 </div>
