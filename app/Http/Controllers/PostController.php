@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Acceptance;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -53,27 +54,22 @@ class PostController extends Controller
         $posttag->post_id = $post->id;
         $posttag->save();
 
-        $accepted = new Acceptance();
-        $accepted->post_id = $post->id;
-        $accepted->user_id = Auth::id();
-        $accepted->is_completed = 0;
-        $accepted->save();
-
         return redirect()->route('post.index')->with('success', '投稿が作成されました');
     }
 
     // home.blade.phpの投稿一覧表示用
     public function allPosts()
     {
-        $acceptedPostIds = Acceptance::where('is_completed', 0)->pluck('post_id');
+        $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
+        $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
+        $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
+        $tags = Tag::whereIn('id', $posttag)->get();
 
-        if ($acceptedPostIds->isEmpty()) {
-            $posts = collect(); // 空のコレクション
-        } else {
-            $posts = Post::whereIn('id', $acceptedPostIds)->orderBy('updated_at', 'desc')->get();
-        }
+        $combined = array_map(null, $posts->toArray(), $tags->toArray());
 
-        return view('home', compact('posts'));
+        return view('home', [
+            'combined' => $combined
+        ]);
     }
 
 
