@@ -90,18 +90,37 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
+        logger($id);
+
         $validatedData = $request->validate([
-            'title' => 'required|string|max:10',
-            'content' => 'required|text|max:200',
+            // 'title' => 'required|string|max:10',
+            // 'content' => 'required|string|max:200',
+            // 'reward' => 'required|integer',
+            // 'tag_name' => 'required|string|in:option1,option2,option3',
+            // 'address' => 'required|string',
+            // 'deadline' => 'required|date',
+
+            'title' => 'required|string|max:20',
+            'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            'tag_name' => 'required|string|in:option1,option2,option3',
+            // 'tag_id' => 'required|integer',
             'address' => 'required|string',
-            'deadline' => 'required|date',
+            'deadline' => [
+                'required',
+                'date',
+                'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
+            ]
         ]);
 
+        logger("test");
+
         $post = Post::findOrFail($id);
+        
         $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
+        $post->content = $validatedData['content'];
+        $post->reward = $validatedData['reward'];
+        $post->address = $validatedData['address'];
+        $post->deadline = $validatedData['deadline'];
         $post->save();
 
         return redirect()->route('myposts')->with('success', '投稿が更新されました');
