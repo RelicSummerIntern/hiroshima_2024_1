@@ -26,6 +26,7 @@ class PostController extends Controller
     // 投稿作成用
     public function store(Request $request)
     {
+        logger("test");
         $validatedData = $request->validate([
             'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
@@ -38,7 +39,7 @@ class PostController extends Controller
                 'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
             ],
         ]);
-
+        
         $post = new Post();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
