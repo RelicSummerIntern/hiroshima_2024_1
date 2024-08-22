@@ -33,7 +33,7 @@ class PostController extends Controller
             'address' => 'required|string',
             'deadline' => [
                 'required',
-                'datetime',
+                'date',
                 'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
             ],
         ]);
@@ -45,6 +45,7 @@ class PostController extends Controller
         $post->deadline = $validatedData['deadline'];
         $post->address = $validatedData['address'];
         $post->user_id = Auth::id();
+        $post->is_completed = 0;
         $post->save();
 
         $posttag = new PostTag();
