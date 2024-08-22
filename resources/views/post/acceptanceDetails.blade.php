@@ -17,8 +17,7 @@
                             <div class="form-group row">
                                 <!-- タイトル -->
                                 <div class="col-md-6">
-                                <p id="title" class="form-control @error('title') is-invalid @enderror" name="title" required>{{ old('title', $post->title) }}</p>
-                                
+                                    <p id="title" class="form-control @error('title') is-invalid @enderror" name="title" required>{{ old('title', $post->title) }}</p>
                                 </div>
                             </div>
 
