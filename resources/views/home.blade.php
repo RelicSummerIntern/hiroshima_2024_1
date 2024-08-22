@@ -35,8 +35,7 @@
 
                 @foreach($combined as [$post, $tag])
                 @php
-                $deadline = \Carbon\Carbon::parse($post['deadline']);
-                $diff = $currentTime->diff($deadline);
+                $deadline = \Carbon\Carbon::parse($post['deadline'])->format('Y/m/d H:i:s');
                 @endphp
                 <a href="{{ route('home') }}" style="text-decoration: none;">
                     <div class="Recruitment_slot">
@@ -44,26 +43,28 @@
                             <h2>{{ $post['title']}}</h2>
                         </div>
                         <div style="width: 100%; background-color: rgb(0, 0, 0); height: 2px;"></div>
-                        <h3 style="margin-left: 20px; ">報酬：{{ $post['reward']}}円</h3>
-                        <h3 style="margin-left: 20px; ">
-                            残り時間：
-                            @if ($currentTime->greaterThan($deadline))
-                            期限切れ
-                            @else
-                            {{ $diff->days }} 日 {{ $diff->h }} 时 {{ $diff->i }} 分
-                            @endif
+                        <h3 style="margin-left: 20px;">報酬：{{ $post['reward']}}円</h3>
+                        <h3 style="margin-left: 20px;">残り時間：</h3>
+                        <h3 style="margin-left: 20px;">
+                            <div class="countdown" data-target-time="{{ $deadline }}">
+                                <span class="countdown-day">0</span>日
+                                <span class="countdown-hour">0</span>時間
+                                <span class="countdown-min">0</span>分
+                                <span class="countdown-sec">0</span>秒
+                            </div>
                         </h3>
-                        <h3 style="margin-left: 20px; ">場所：{{ $post['address']}}</h3>
-                        <h5 style="margin-left: 20px; ">タグ：<span class="main_tag">{{ isset($tag['tag_name']) ? $tag['tag_name'] : 'タグがありません' }}</span></h5>
+                        <h3 style="margin-left: 20px;">場所：{{ $post['address']}}</h3>
+                        <h5 style="margin-left: 20px;">タグ：<span class="main_tag">{{ $tag['tag_name'] ?? 'タグがありません' }}</span></h5>
                     </div>
                 </a>
                 @endforeach
+
             </div>
             <div class="left_line"></div>
             <div class="left-row_3">
                 <div>
                     <!-- リンク修正！！！ -->
-                    <a href="{{ route('home') }}" class="inline-block py-2 px-4 btn btn-primary text-decoration-none" style="font-size: 30px; font-weight: bold;">
+                    <a href="{{ route('post.create') }}" class="inline-block py-2 px-4 btn btn-primary text-decoration-none" style="font-size: 30px; font-weight: bold;">
                         {{ __('あなたの依頼を投稿') }}
                     </a>
                 </div>
@@ -73,6 +74,29 @@
             <div id="map"></div>
         </div>
     </div>
+    <script>
+        let countdown = setInterval(function() {
+            document.querySelectorAll('.countdown').forEach(function(elem) {
+                const now = new Date() //今の日時
+                const targetTime = new Date(elem.getAttribute("data-target-time")) //ターゲット日時を取得
+                const remainTime = targetTime - now //差分を取る（ミリ秒で返ってくる
+
+                // 指定の日時を過ぎていたらスキップ
+                if (remainTime < 0) return true
+
+                const difDay = Math.floor(remainTime / 1000 / 60 / 60 / 24) % 365
+                const difHour = Math.floor(remainTime / 1000 / 60 / 60) % 24
+                const difMin = Math.floor(remainTime / 1000 / 60) % 60
+                const difSec = Math.floor(remainTime / 1000) % 60
+
+                // //残りの日時を上書き
+                elem.querySelectorAll('.countdown-day')[0].textContent = difDay
+                elem.querySelectorAll('.countdown-hour')[0].textContent = difHour
+                elem.querySelectorAll('.countdown-min')[0].textContent = difMin
+                elem.querySelectorAll('.countdown-sec')[0].textContent = difSec
+            });
+        }, 1000) //1秒間に1度処理
+    </script>
 
     <!-- Google map -->
     <script>
