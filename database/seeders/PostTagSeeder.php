@@ -31,5 +31,15 @@ class PostTagSeeder extends Seeder
             'post_id' => 3,
             'tag_id' => 1,
         ]);
+
+        PostTag::create([
+            'post_id' => 4,
+            'tag_id' => 1,
+        ]);
+
+        PostTag::create([
+            'post_id' => 5,
+            'tag_id' => 1,
+        ]);
     }
 }
