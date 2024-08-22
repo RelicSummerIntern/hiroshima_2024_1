@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
+    Route::get('/myaccepteds', [PostController::class, 'myAccepteds'])->name('myaccepteds');
 });
 
 require __DIR__ . '/auth.php';
