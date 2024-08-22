@@ -38,7 +38,9 @@ class PostController extends Controller
     public function myPosts()
     {
         $posts = Post::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
-        return view('my-posts', compact('posts'));
+        $postsCompleted = Post::where('user_id', Auth::id())->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        $postsOngoing = Post::where('user_id', Auth::id())->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        return view('my-posts', compact('posts','postsOngoing', 'postsCompleted'));
     }
 
     public function edit($id)
