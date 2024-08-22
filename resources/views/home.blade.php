@@ -37,7 +37,7 @@
                 @php
                 $deadline = \Carbon\Carbon::parse($post['deadline'])->format('Y/m/d H:i:s');
                 @endphp
-                <a href="{{ route('home') }}" style="text-decoration: none;">
+                <a href="{{ route('post.detail', ['id' => $post['id']]) }}" style="text-decoration: none;">
                     <div class="Recruitment_slot">
                         <div style="text-align: center; width: 100%;">
                             <h2>{{ $post['title']}}</h2>
