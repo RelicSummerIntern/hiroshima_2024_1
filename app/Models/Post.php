@@ -11,6 +11,11 @@ class Post extends Model
 
     protected $fillable = ['title', 'content', 'reward', 'address', 'deadline'];
 
+    public function acceptance(){
+        return $this->hasOne(Acceptance::class);
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
