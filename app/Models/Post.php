@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'author_name'];
+    protected $fillable = ['title', 'content', 'reward', 'address', 'deadline'];
 
     public function acceptance(){
         return $this->hasOne(Acceptance::class);
@@ -21,6 +21,3 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 }
-
-
-

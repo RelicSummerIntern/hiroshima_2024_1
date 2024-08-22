@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostTag;
+use App\Models\Acceptance;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -19,21 +23,55 @@ class PostController extends Controller
         return view('post.create');
     }
 
+    // 投稿作成用
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'title' => 'required|string|max:20',
+            'content' => 'required|string|max:200',
+            'reward' => 'required|integer',
+            'tag_id' => 'required|integer',
+            'address' => 'required|string',
+            'deadline' => [
+                'required',
+                'date',
+                'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
+            ],
         ]);
 
         $post = new Post();
         $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
+        $post->content = $validatedData['content'];
+        $post->reward = $validatedData['reward'];
+        $post->deadline = $validatedData['deadline'];
+        $post->address = $validatedData['address'];
         $post->user_id = Auth::id();
+        $post->is_completed = 0;
         $post->save();
+
+        $posttag = new PostTag();
+        $posttag->tag_id = $validatedData['tag_id'];
+        $posttag->post_id = $post->id;
+        $posttag->save();
 
         return redirect()->route('post.index')->with('success', '投稿が作成されました');
     }
+
+    // home.blade.phpの投稿一覧表示用
+    public function allPosts()
+    {
+        $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
+        $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
+        $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
+        $tags = Tag::whereIn('id', $posttag)->get();
+
+        $combined = array_map(null, $posts->toArray(), $tags->toArray());
+
+        return view('home', [
+            'combined' => $combined
+        ]);
+    }
+
 
     public function myPosts()
     {
@@ -53,8 +91,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'title' => 'required|string|max:10',
+            'content' => 'required|text|max:200',
+            'reward' => 'required|integer',
+            'tag_name' => 'required|string',
+            'address' => 'required|string',
+            'deadline' => 'required|date',
         ]);
 
         $post = Post::findOrFail($id);
@@ -73,4 +115,3 @@ class PostController extends Controller
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
     }
 }
-

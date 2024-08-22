@@ -17,6 +17,7 @@ class PostSeeder extends Seeder
     {
         $user = User::first();
 
+
         Post::factory()->create([
             'user_id' => $user->id,
             'address' => "OO市XX町",
@@ -33,5 +34,6 @@ class PostSeeder extends Seeder
             'user_id' => $user->id,
             'address' => "A市B町"
         ]);
+
     }
 }
