@@ -99,10 +99,11 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         if ($post->acceptance) {
             $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
-            $tag = Tag::whereIn('id', $posttag)->first();
-            return view('post.ongoing', compact('post', 'tag'));
+            // $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.ongoing', compact('post', 'posttag'));
         } else {
-            return view('post.edit', compact('post'));
+            $posttag = PostTag::where('post_id', $post->id)->first('tag_id');
+            return view('post.edit', compact('post', 'posttag'));
         }
     }
 
@@ -157,7 +158,7 @@ class PostController extends Controller
             'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            // 'tag_id' => 'required|integer',
+            'tag_id' => 'integer',
             'address' => 'required|string',
             'deadline' => [
                 'required',
@@ -168,14 +169,17 @@ class PostController extends Controller
 
         logger("test");
 
-        $post = Post::findOrFail($id);
-
+        $post = Post::where('id', $id)->first();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
-        $post->address = $validatedData['address'];
         $post->deadline = $validatedData['deadline'];
+        $post->address = $validatedData['address'];
         $post->save();
+
+        $posttag = PostTag::where('post_id', $id)->first();
+        $posttag->tag_id = $validatedData['tag_id'];
+        $posttag->save();
 
         return redirect()->route('myposts')->with('success', '投稿が更新されました');
     }

@@ -27,7 +27,7 @@
                     </div>
                     <!-- 本文 -->
                     <div class="mb-4">
-                        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">本文</label>
+                        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">内容</label>
                         <textarea name="content" id="content" rows="6" maxlength="200" class="w-full  border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></textarea>
                     </div>
                     <!-- 報酬 -->
