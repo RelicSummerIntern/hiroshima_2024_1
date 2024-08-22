@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Acceptance;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -116,9 +117,16 @@ class PostController extends Controller
         } else {
             $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
             $tag = Tag::whereIn('id', $posttag)->first();
+            // $acceptance = Acceptance::find($id);
+            // if ($acceptance) {
+            //     return $acceptance;
+            // } else {
+            //     return false;
+            // }
             return view('post.detail', [
                 'post' => $post,
                 'tag' => $tag,
+                // 'acceptance' => $acceptance,
             ]);
         }
     }
@@ -187,13 +195,21 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->is_completed = True;
         $post->save();
-        return redirect()->route('home')->with('success', '依頼が達成されました!');
-    }
 
+        $acceptance = Acceptance::where('post_id', $id)->first();
+        $acceptance->is_completed = True;
+        $acceptance->save();
+        return redirect()->route('myaccepteds')->with('success', '依頼が達成されました!');
+    }
 
     public function acceptanceDetails($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.acceptanceDetails', compact('post'));
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.acceptanceDetails', [
+            'post' => $post,
+            'tag' => $tag,
+        ]);
     }
 }

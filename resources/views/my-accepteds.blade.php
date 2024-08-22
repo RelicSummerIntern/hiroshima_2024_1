@@ -26,7 +26,7 @@
                         <div class="mt-4 flex">
                             <a href="{{ route('post.edit', ['id' => $acceptedOngoing->post->id]) }}" class="btn btn-primary mr-2"
                                 role="button">
-                                {{ __('編集') }}
+                                {{ __('詳細') }}
                             </a>
                         </div>
                     </div>
@@ -48,9 +48,9 @@
                         <p class="text-gray-800">{{ $acceptedCompleted->post->updated_at }}</p>
 
                         <div class="mt-4 flex">
-                            <a href="{{ route('post.edit', ['id' => $acceptedCompleted->post->id]) }}" class="btn btn-primary mr-2"
+                            <a href="{{ route('post.acceptanceDetails', ['id' => $acceptedCompleted->post->id]) }}" class="btn btn-primary mr-2"
                                 role="button">
-                                {{ __('編集') }}
+                                {{ __('詳細') }}
                             </a>
                         </div>
                     </div>

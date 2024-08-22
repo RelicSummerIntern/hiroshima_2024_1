@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-extrabold text-gray-800 leading-tight" style="font-size: 40px;">
+            <!-- 受諾者の受諾画面 -->
             {{ __('依頼詳細') }}
         </h2>
     </x-slot>
