@@ -72,7 +72,6 @@ class PostController extends Controller
         ]);
     }
 
-
     public function myPosts()
     {
         $posts = Post::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();

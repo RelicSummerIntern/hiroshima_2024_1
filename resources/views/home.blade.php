@@ -89,7 +89,7 @@
                 const difMin = Math.floor(remainTime / 1000 / 60) % 60
                 const difSec = Math.floor(remainTime / 1000) % 60
 
-                // //残りの日時を上書き
+                // 残りの日時を上書き
                 elem.querySelectorAll('.countdown-day')[0].textContent = difDay
                 elem.querySelectorAll('.countdown-hour')[0].textContent = difHour
                 elem.querySelectorAll('.countdown-min')[0].textContent = difMin
