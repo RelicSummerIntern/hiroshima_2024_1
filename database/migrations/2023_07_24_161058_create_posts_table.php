@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->integer('reward');
-            $table->date('deadline');
+            $table->dateTime('deadline');
             $table->string('address');
             $table->boolean('is_completed');
             
