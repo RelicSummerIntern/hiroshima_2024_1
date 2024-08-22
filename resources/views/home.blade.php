@@ -29,20 +29,35 @@
                 </select>
             </div>
             <div class="left-row_2">
-                @for($i = 0; $i < 5; $i++)
-                    <a href="{{ route('home') }}" style="text-decoration: none;">
+                @php
+                $currentTime = \Carbon\Carbon::now();
+                @endphp
+
+                @foreach($combined as [$post, $tag])
+                @php
+                $deadline = \Carbon\Carbon::parse($post['deadline']);
+                $diff = $currentTime->diff($deadline);
+                @endphp
+                <a href="{{ route('home') }}" style="text-decoration: none;">
                     <div class="Recruitment_slot">
                         <div style="text-align: center; width: 100%;">
-                            <h2>犬を探してほしい</h2>
+                            <h2>{{ $post['title']}}</h2>
                         </div>
                         <div style="width: 100%; background-color: rgb(0, 0, 0); height: 2px;"></div>
-                        <h3 style="margin-left: 20px; ">報酬：3000円</h3>
-                        <h3 style="margin-left: 20px; ">残り時間</h3>
-                        <h3 style="margin-left: 20px; ">場所：東京都渋谷区</h3>
-                        <h5 style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></h5>
+                        <h3 style="margin-left: 20px; ">報酬：{{ $post['reward']}}円</h3>
+                        <h3 style="margin-left: 20px; ">
+                            残り時間：
+                            @if ($currentTime->greaterThan($deadline))
+                            期限切れ
+                            @else
+                            {{ $diff->days }} 日 {{ $diff->h }} 时 {{ $diff->i }} 分
+                            @endif
+                        </h3>
+                        <h3 style="margin-left: 20px; ">場所：{{ $post['address']}}</h3>
+                        <h5 style="margin-left: 20px; ">タグ：<span class="main_tag">{{ isset($tag['tag_name']) ? $tag['tag_name'] : 'タグがありません' }}</span></h5>
                     </div>
-                    </a>
-                    @endfor
+                </a>
+                @endforeach
             </div>
             <div class="left_line"></div>
             <div class="left-row_3">
