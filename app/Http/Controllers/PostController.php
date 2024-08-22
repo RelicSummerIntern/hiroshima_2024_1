@@ -61,6 +61,7 @@ class PostController extends Controller
     public function allPosts()
     {
         $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
+        $address = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('address');
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
         $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
         $tags = Tag::whereIn('id', $posttag)->get();
@@ -68,10 +69,10 @@ class PostController extends Controller
         $combined = array_map(null, $posts->toArray(), $tags->toArray());
 
         return view('home', [
-            'combined' => $combined
+            'combined' => $combined,
+            'address' => $address,
         ]);
     }
-
 
     public function myPosts()
     {
