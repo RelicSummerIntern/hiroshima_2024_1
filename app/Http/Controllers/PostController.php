@@ -65,11 +65,10 @@ class PostController extends Controller
         $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
         $address = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('address');
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
-        $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
-        $tags = Tag::whereIn('id', $posttag)->get();
+        $posttag = PostTag::whereIn('post_id', $posts_id)->orderBy('updated_at', 'desc')->pluck('tag_id');
         $acceptance = Acceptance::pluck('post_id');
 
-        $combined = array_map(null, $posts->toArray(), $tags->toArray());
+        $combined = array_map(null, $posts->toArray(), $posttag->toArray());
 
         return view('home', [
             'combined' => $combined,

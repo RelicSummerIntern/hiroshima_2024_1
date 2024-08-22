@@ -28,7 +28,7 @@
                 $currentTime = \Carbon\Carbon::now();
                 @endphp
 
-                @foreach($combined as [$post, $tag])
+                @foreach($combined as [$post, $tagName])
                 @if($post['user_id'] == Auth::id() || $currentTime > $post['deadline'] || $acceptance->contains($post['id']))
                 @continue
                 @else
@@ -52,7 +52,18 @@
                             </div>
                         </h3>
                         <h3 style="margin-left: 20px;">場所：{{ $post['address']}}</h3>
-                        <h5 style="margin-left: 20px;">タグ：<span class="main_tag">{{ $tag['tag_name'] ?? 'タグがありません' }}</span></h5>
+                        @php
+                        if ($tagName == 1) {
+                        $tagName = '手助け';
+                        } elseif ($tagName == 2) {
+                        $tagName = '探し物';
+                        } elseif ($tagName == 3) {
+                        $tagName = 'その他';
+                        } else {
+                        $tagName = 'タグがありません';
+                        }
+                        @endphp
+                        <h5 style="margin-left: 20px;">タグ：<span class="main_tag">{{ $tagName }}</span></h5>
                     </div>
                 </a>
                 @endif
