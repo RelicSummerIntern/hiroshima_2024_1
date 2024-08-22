@@ -23,21 +23,21 @@
 
                             <div class="form-group my-4">    
                                 <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('内容') }}</p>
-                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+                                <p name="content" id="content" rows="6" maxlength="200" class="w-full  border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></p>
                             </div>
                                
 
                                 <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('報酬') }}</p>
-                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+                                <p name="reward" id="reward" rows="1" class="w-[10%] border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></p>
 
                                 <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('タグ') }}</p>
                                 <p style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></p>  
                             
                                 <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('住所') }}</p>
-                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+                                <p type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required></p>
 
                                 <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('期限') }}</p>
-                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('content', $post->content) }}</p>
+                                <p type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500"></p>
 
                                 <div class="col-md-6">
                                     @error('body')
