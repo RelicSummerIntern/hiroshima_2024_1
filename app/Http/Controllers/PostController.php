@@ -33,8 +33,8 @@ class PostController extends Controller
             'address' => 'required|string',
             'deadline' => [
                 'required',
-                'date',
-                'after:' . Carbon::now()->format('Y-m-d'),
+                'datetime',
+                'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
             ],
         ]);
 

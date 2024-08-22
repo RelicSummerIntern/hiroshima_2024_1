@@ -10,6 +10,16 @@
             <div class="bg-white shadow p-6 rounded-lg">
                 <form action="{{ route('post.store') }}" method="post">
                     @csrf
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
                     <!-- タイトル -->
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2">タイトル</label>
@@ -43,9 +53,9 @@
                         <input type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
                     </div>
                     <!-- 期限 -->
-                    <div class="mb-4" style="width: 120px;">
+                    <div class="mb-4" style="width: 165px;">
                         <label for="deadline" class="block text-gray-700 text-sm font-bold mb-2">期限</label>
-                        <input type="date" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">
+                        <input type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">
                     </div>
                     <!-- ボタン -->
                     <div class="flex justify-end">
