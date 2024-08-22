@@ -167,4 +167,9 @@ class PostController extends Controller
 
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
     }
+    public function acceptanceDetails($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('post.acceptanceDetails', compact('post'));
+    }
 }

@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
 
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
+    Route::get('/post/acceptanceDetails/{id}', [PostController::class, 'acceptanceDetails'])->name('post.acceptanceDetails');
     Route::get('/myaccepteds', [PostController::class, 'myAccepteds'])->name('myaccepteds');
 });
 
