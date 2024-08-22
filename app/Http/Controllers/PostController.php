@@ -55,7 +55,7 @@ class PostController extends Controller
         $posttag->post_id = $post->id;
         $posttag->save();
 
-        return redirect()->route('post.index')->with('success', '投稿が作成されました');
+        return redirect()->route('myposts')->with('success', '投稿が作成されました');
     }
 
     // home.blade.phpの投稿一覧表示用
@@ -134,7 +134,7 @@ class PostController extends Controller
         $acceptance->post_id = $id;
         $acceptance->save();
 
-        return redirect()->route('home')->with('success', '投稿を受諾しました');
+        return redirect()->route('myaccepteds')->with('success', '投稿を受諾しました');
     }
 
     public function update(Request $request, $id)
