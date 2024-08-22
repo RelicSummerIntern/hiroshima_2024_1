@@ -1,6 +1,8 @@
 // bladeファイルから変数を取得
 var homeUrl = window.homeUrl;
 var page1 = window.page1;
+var page2 = window.page2;
+var page3 = window.page3;
 
 const hiroshimaStation = {
     lat: 34.3963,
@@ -9,21 +11,23 @@ const hiroshimaStation = {
 
 var markerData = [ // マーカーを立てる場所名・緯度・経度
     {
-        name: '平和記念公園',
+        name: '荷物が重すぎ...',
         lat: 34.392969358792556,
         lng: 132.4522613734255,
         reward: 100,
-        url: page1
+        url: 1
     }, {
-        name: '広島PARCO',
+        name: '犬を探してほしい',
         lat: 34.39231149487647,
         lng: 132.46196912400174,
-        reward: 100
+        reward: 100,
+        url: 2
     }, {
-        name: '広島東照宮',
+        name: '電球変えたい',
         lat: 34.4041557914022,
         lng: 132.4755641284064,
-        reward: 100
+        reward: 100,
+        url: 3
     }
 ];
 
@@ -112,14 +116,27 @@ function initMap() {
                         },
                         map: map,
                         title: data.name,
+                        reward: data.reward,
                     });
+
+                    let linkUrl;
+                    if (data.url === 1) {
+                        linkUrl = page1;
+                    } else if (data.url === 2) {
+                        linkUrl = page2;
+                    } else if (data.url === 3) {
+                        linkUrl = page3;
+                    } else {
+                        linkUrl = '#'; // 默认链接或空链接
+                    }
+                
 
                     marker.addListener('click', function() {
                         infoWindow.setPosition(marker.getPosition());
                         infoWindow.setContent(`<div style="font-family: Arial, sans-serif; font-size: 16px; color: #333; padding: 10px; border: 2px solid #007bff; border-radius: 8px;">
                         <h3 style="margin: 0; color: #007bff;">${data.name}</h3>
-                        <p style="margin: 5px 0;">ここに位置情報が表示されます。</p>
-                        <a href="${page1}" style="color: #007bff; text-decoration: none;" target="_blank">詳細はこちら</a>
+                        <h2 style="margin: 5px 0;">${data.reward}円</h2>
+                        <a href="${linkUrl}" style="color: #007bff; text-decoration: none;" target="_blank">詳細はこちら</a>
                     </div>`);
                         infoWindow.open(map, marker);
                     });

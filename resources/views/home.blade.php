@@ -29,7 +29,7 @@
                 @endphp
 
                 @foreach($combined as [$post, $tag])
-                @if($post['user_id'] == Auth::id() || $post['is_completed'] == 1 || $currentTime > $post['deadline'])
+                @if($post['user_id'] == Auth::id() || $currentTime > $post['deadline'] || $acceptance->contains($post['id']))
                 @continue
                 @else
                 @php
@@ -103,8 +103,12 @@
         // トップページのURLをJavaScriptに渡す
         var homeUrl = "{{ route('home') }}";
         window.homeUrl = homeUrl;
-        var page1 = "http://localhost/post/detail/2"
+        var page1 = "http://localhost/post/detail/1"
         window.page1 = page1;
+        var page2 = "http://localhost/post/detail/2"
+        window.page2 = page2;
+        var page3 = "http://localhost/post/detail/3"
+        window.page3 = page3;
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyATCiHn-q2ufKqlPMJaRqCvdQoK3_5zJk0&callback=initMap" async defer></script>
 

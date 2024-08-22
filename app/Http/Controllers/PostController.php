@@ -66,7 +66,7 @@ class PostController extends Controller
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
         $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
         $tags = Tag::whereIn('id', $posttag)->get();
-        $acceptance = Acceptance::where('is_completed', 1)->pluck('post_id');
+        $acceptance = Acceptance::pluck('post_id');
 
         $combined = array_map(null, $posts->toArray(), $tags->toArray());
 
@@ -108,14 +108,10 @@ class PostController extends Controller
     public function acceptance($id)
     {
         $acceptance = new Acceptance();
-        $acceptance->is_completed = 1;
+        $acceptance->is_completed = 0;
         $acceptance->user_id = Auth::id();
         $acceptance->post_id = $id;
         $acceptance->save();
-
-        $post = Post::where('id', $id)->first();
-        $post->is_completed = 1;
-        $post->save();
 
         return redirect()->route('home')->with('success', '投稿を受諾しました');
     }
