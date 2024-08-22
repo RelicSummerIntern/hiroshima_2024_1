@@ -17,19 +17,19 @@ class PostTagSeeder extends Seeder
     {
         $post = Post::first();
 
-        // PostTag::create([
-        //     'post_id' => 1,
-        //     'tag_id' => 1,
-        // ]);
+        PostTag::create([
+            'post_id' => 1,
+            'tag_id' => 1,
+        ]);
 
-        // PostTag::create([
-        //     'post_id' => 2,
-        //     'tag_id' => 2,
-        // ]);
+        PostTag::create([
+            'post_id' => 2,
+            'tag_id' => 2,
+        ]);
 
-        // PostTag::create([
-        //     'post_id' => 3,
-        //     'tag_id' => 1,
-        // ]);
+        PostTag::create([
+            'post_id' => 3,
+            'tag_id' => 1,
+        ]);
     }
 }
