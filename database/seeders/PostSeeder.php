@@ -16,15 +16,5 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         $user = User::first();
-
-        Post::factory()->create([
-            'user_id' => $user->id,
-            'address' => "OO市XX町"
-        ]);
-
-        Post::factory()->create([
-            'user_id' => $user->id,
-            'address' => "OO市XX町"
-        ]);
     }
 }
