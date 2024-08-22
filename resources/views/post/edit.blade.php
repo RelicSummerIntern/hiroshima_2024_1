@@ -1,73 +1,58 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('依頼詳細') }}
+            {{ __('投稿の編集') }}
         </h2>
     </x-slot>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body mt-4">
-                        <form method="POST" action="{{ route('post.update', $post->id) }}">
-                            @csrf
-                            @method('PATCH')
-
-                            <div class="form-group row">
-                                <!-- タイトル -->
-                                <div class="col-md-6">
-                                <p id="title" class="form-control @error('title') is-invalid @enderror" name="title" required>{{ old('title', $post->title) }}</p>
-                                
-                                </div>
-                            </div>
-
-                            <div class="form-group my-4">    
-                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('内容') }}</p>
-                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="content" required>{{ old('content', $post->content) }}</p>
-                            </div>
-                            
-                            <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('報酬') }}</p>
-                            <div style="display: flex; align-items: baseline;">    
-                                <p type="text" name="title" id="title" maxlength="20" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="width: 100px; font-weight: bold;" required>{{ old('reward', $post->reward) }}</p>
-                                <span class="ml-2" style="font-weight: bold;">円</span>
-                            </div>
-
-                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('タグ') }}</p>
-                                <p style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></p>  
-                            
-                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('住所') }}</p>
-                                <p type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>{{ old('address', $post->address) }}</p>
-
-                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('期限') }}</p>
-                                <p type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">{{ old('deadline', $post->deadline) }}</p>
-
-                                <div class="col-md-6">
-                                    @error('body')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4" style="margin: auto; display: flex; justify-content: space-around;">
-                                    <a href="{{ route('myposts') }}">
-                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
-                                            {{ __('戻る') }}
-                                        </button>
-                                    </a>
-                                    <a href="{{ route('myposts') }}">
-                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
-                                            {{ __('受諾') }}
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+    <div class="max-w-7xl mx-auto mt-10 sm:px-6 lg:px-8">
+        <div class="my-4">
+            <div class="bg-white shadow p-6 rounded-lg">
+                <form action="{{ route('post.update', $post->id) }}" method="POST">
+                    @method('PATCH')
+                    @csrf
+                    <!-- タイトル -->
+                    <div class="mb-4">
+                        <label for="title" class="block text-gray-700 text-sm font-bold mb-2">タイトル</label>
+                        <input type="text" name="title" id="title" maxlength="10" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
                     </div>
-                </div>
+                    <!-- 本文 -->
+                    <div class="mb-4">
+                        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">本文</label>
+                        <textarea name="content" id="content" rows="6" maxlength="200" class="w-full  border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></textarea>
+                    </div>
+                    <!-- 報酬 -->
+                    <div class="mb-4">
+                        <label for="reward" class="block text-gray-700 text-sm font-bold mb-2">報酬</label>
+                        <div class="flex items-center">
+                            <textarea name="reward" id="reward" rows="1" class="w-[10%] border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></textarea>
+                            <span class="ml-2">円</span>
+                        </div>
+                    </div>
+                    <!-- タグ -->
+                    <div class="mb-4">
+                        <label label for="tag_name" class="block text-gray-700 text-sm font-bold mb-2">タグ</label>
+                        <select name="tag_name" id="tag_name">
+                            <option value="1">手助け</option>
+                            <option value="2">探し物</option>
+                            <option value="3">その他</option>
+                        </select>
+                    </div>
+                    <!-- 住所 -->
+                    <div class="mb-4">
+                        <label for="address" class="block text-gray-700 text-sm font-bold mb-2">住所</label>
+                        <input type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
+                    </div>
+                    <!-- 期限 -->
+                    <div class="mb-4" style="width: 180px;">
+                        <label for="deadline" class="block text-gray-700 text-sm font-bold mb-2">期限</label>
+                        <input type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <!-- ボタン -->
+                    <div class="flex justify-end">
+                        <button type="submit" class="py-2 px-4 btn btn-primary">投稿する</button>
+                        <a href="{{ route('post.index') }}" class="py-2 px-4 ml-4 btn btn-secondary">キャンセル</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
