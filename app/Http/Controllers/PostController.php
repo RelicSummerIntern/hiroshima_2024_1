@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Acceptance;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -64,11 +65,10 @@ class PostController extends Controller
         $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
         $address = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('address');
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
-        $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
-        $tags = Tag::whereIn('id', $posttag)->get();
+        $posttag = PostTag::whereIn('post_id', $posts_id)->orderBy('updated_at', 'desc')->pluck('tag_id');
         $acceptance = Acceptance::pluck('post_id');
 
-        $combined = array_map(null, $posts->toArray(), $tags->toArray());
+        $combined = array_map(null, $posts->toArray(), $posttag->toArray());
 
         return view('home', [
             'combined' => $combined,
@@ -97,13 +97,13 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        if($post->acceptance){
+        if ($post->acceptance) {
             $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
-            $tag = Tag::whereIn('id', $posttag)->first();
-            return view('post.ongoing', compact('post', 'tag'));
-
-        } else{
-            return view('post.edit', compact('post'));
+            // $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.ongoing', compact('post', 'posttag'));
+        } else {
+            $posttag = PostTag::where('post_id', $post->id)->first('tag_id');
+            return view('post.edit', compact('post', 'posttag'));
         }
     }
 
@@ -111,16 +111,22 @@ class PostController extends Controller
     public function detail($id)
     {
         $post = Post::findOrFail($id);
-        if($post->acceptance){
+        if ($post->acceptance) {
 
             return view('post.acceptanceDetails', compact('post'));
-        }
-        else {
+        } else {
             $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
             $tag = Tag::whereIn('id', $posttag)->first();
+            // $acceptance = Acceptance::find($id);
+            // if ($acceptance) {
+            //     return $acceptance;
+            // } else {
+            //     return false;
+            // }
             return view('post.detail', [
                 'post' => $post,
                 'tag' => $tag,
+                // 'acceptance' => $acceptance,
             ]);
         }
     }
@@ -152,7 +158,7 @@ class PostController extends Controller
             'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            // 'tag_id' => 'required|integer',
+            'tag_id' => 'integer',
             'address' => 'required|string',
             'deadline' => [
                 'required',
@@ -163,14 +169,17 @@ class PostController extends Controller
 
         logger("test");
 
-        $post = Post::findOrFail($id);
-
+        $post = Post::where('id', $id)->first();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
-        $post->address = $validatedData['address'];
         $post->deadline = $validatedData['deadline'];
+        $post->address = $validatedData['address'];
         $post->save();
+
+        $posttag = PostTag::where('post_id', $id)->first();
+        $posttag->tag_id = $validatedData['tag_id'];
+        $posttag->save();
 
         return redirect()->route('myposts')->with('success', '投稿が更新されました');
     }
@@ -183,16 +192,27 @@ class PostController extends Controller
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
     }
 
-    public function markAsComplete($id){
+    public function markAsComplete($id)
+    {
         logger("test");
         $post = Post::findOrFail($id);
         $post->is_completed = True;
         $post->save();
-        return redirect()->route('home')->with('success', '依頼が達成されました!');
-      
+
+        $acceptance = Acceptance::where('post_id', $id)->first();
+        $acceptance->is_completed = True;
+        $acceptance->save();
+        return redirect()->route('myaccepteds')->with('success', '依頼が達成されました!');
+    }
+
     public function acceptanceDetails($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.acceptanceDetails', compact('post'));
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.acceptanceDetails', [
+            'post' => $post,
+            'tag' => $tag,
+        ]);
     }
 }
