@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        <!-- 受託者の受諾進行中画面 -->
+        <!-- 投稿者の進行中画面 -->
         <h2 class="font-extrabold text-gray-800 leading-tight" style="font-size: 40px;">
-            <!-- 受諾者の受諾画面 -->
             {{ __('依頼詳細') }}
         </h2>
     </x-slot>
@@ -32,14 +33,14 @@
                             <div class="form-group my-4">
                                 <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('報酬') }}</p>
                                 <div style="display: flex; align-items: baseline;">
-                                    <p type="text" name="title" id="title" maxlength="20" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="width: 100px;" required>{{ old('reward', $post->reward) }}</p>
+                                    <p type="text" name="title" id="title" maxlength="20" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="width: 100px; font-weight: bold;" required>{{ old('reward', $post->reward) }}</p>
                                     <span class="ml-2" style="font-weight: bold;">円</span>
                                 </div>
                             </div>
 
                             <div class="form-group my-4">
                                 <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('タグ') }}</p>
-                                <p style="margin-left: 20px; "><span class="main_tag" style="font-size: 20px;">{{ old('address', $tag->tag_name) }}</span></p>
+                                <p style="margin-left: 20px; ">タグ：<span class="main_tag">{{ old('address', $tag->tag_name) }}</span></p>
                             </div>
 
                             <div class="form-group my-4">
@@ -68,9 +69,9 @@
                                     {{ __('戻る') }}
                                 </button>
                             </a>
-                            <a href="{{ route('post.acceptance', ['id' => $post->id]) }}">
+                            <a href="{{ route('post.markAsComplete', ['id' => $post->id]) }}">
                                 <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
-                                    {{ __('受諾') }}
+                                    {{ __('依頼完了') }}
                                 </button>
                             </a>
                         </div>

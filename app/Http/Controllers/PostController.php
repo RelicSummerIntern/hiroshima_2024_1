@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Acceptance;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -55,7 +56,7 @@ class PostController extends Controller
         $posttag->post_id = $post->id;
         $posttag->save();
 
-        return redirect()->route('post.index')->with('success', '投稿が作成されました');
+        return redirect()->route('myposts')->with('success', '投稿が作成されました');
     }
 
     // home.blade.phpの投稿一覧表示用
@@ -64,14 +65,15 @@ class PostController extends Controller
         $posts = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->get();
         $address = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('address');
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
-        $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
-        $tags = Tag::whereIn('id', $posttag)->get();
+        $posttag = PostTag::whereIn('post_id', $posts_id)->orderBy('updated_at', 'desc')->pluck('tag_id');
+        $acceptance = Acceptance::pluck('post_id');
 
-        $combined = array_map(null, $posts->toArray(), $tags->toArray());
+        $combined = array_map(null, $posts->toArray(), $posttag->toArray());
 
         return view('home', [
             'combined' => $combined,
             'address' => $address,
+            'acceptance' => $acceptance,
         ]);
     }
 
@@ -84,34 +86,61 @@ class PostController extends Controller
         return view('my-posts', compact('posts', 'postsAccepting', 'postsOngoing', 'postsCompleted'));
     }
 
+    public function myAccepteds()
+    {
+        $accepteds = Acceptance::where('user_id', Auth::id())->get();
+        $acceptedsOngoing = Acceptance::where('user_id', Auth::id())->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $acceptedsCompleted = Acceptance::where('user_id', Auth::id())->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        return view('my-accepteds', compact('accepteds', 'acceptedsOngoing', 'acceptedsCompleted'));
+    }
+
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.edit', compact('post'));
+        if ($post->acceptance) {
+            $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
+            // $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.ongoing', compact('post', 'posttag'));
+        } else {
+            $posttag = PostTag::where('post_id', $post->id)->first('tag_id');
+            return view('post.edit', compact('post', 'posttag'));
+        }
     }
 
     // 投稿詳細表示用
     public function detail($id)
     {
         $post = Post::findOrFail($id);
-        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
-        $tag = Tag::whereIn('id', $posttag)->first();
-        return view('post.detail', [
-            'post' => $post,
-            'tag' => $tag,
-        ]);
+        if ($post->acceptance) {
+
+            return view('post.acceptanceDetails', compact('post'));
+        } else {
+            $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+            $tag = Tag::whereIn('id', $posttag)->first();
+            // $acceptance = Acceptance::find($id);
+            // if ($acceptance) {
+            //     return $acceptance;
+            // } else {
+            //     return false;
+            // }
+            return view('post.detail', [
+                'post' => $post,
+                'tag' => $tag,
+                // 'acceptance' => $acceptance,
+            ]);
+        }
     }
 
     // 受諾処理
     public function acceptance($id)
     {
         $acceptance = new Acceptance();
-        $acceptance->is_completed = 1;
+        $acceptance->is_completed = 0;
         $acceptance->user_id = Auth::id();
         $acceptance->post_id = $id;
         $acceptance->save();
 
-        return redirect()->route('home')->with('success', '投稿を受諾しました');
+        return redirect()->route('myaccepteds')->with('success', '投稿を受諾しました');
     }
 
     public function update(Request $request, $id)
@@ -129,7 +158,7 @@ class PostController extends Controller
             'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            // 'tag_id' => 'required|integer',
+            'tag_id' => 'integer',
             'address' => 'required|string',
             'deadline' => [
                 'required',
@@ -140,14 +169,17 @@ class PostController extends Controller
 
         logger("test");
 
-        $post = Post::findOrFail($id);
-
+        $post = Post::where('id', $id)->first();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
-        $post->address = $validatedData['address'];
         $post->deadline = $validatedData['deadline'];
+        $post->address = $validatedData['address'];
         $post->save();
+
+        $posttag = PostTag::where('post_id', $id)->first();
+        $posttag->tag_id = $validatedData['tag_id'];
+        $posttag->save();
 
         return redirect()->route('myposts')->with('success', '投稿が更新されました');
     }
@@ -158,5 +190,29 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
+    }
+
+    public function markAsComplete($id)
+    {
+        logger("test");
+        $post = Post::findOrFail($id);
+        $post->is_completed = True;
+        $post->save();
+
+        $acceptance = Acceptance::where('post_id', $id)->first();
+        $acceptance->is_completed = True;
+        $acceptance->save();
+        return redirect()->route('myaccepteds')->with('success', '依頼が達成されました!');
+    }
+
+    public function acceptanceDetails($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.acceptanceDetails', [
+            'post' => $post,
+            'tag' => $tag,
+        ]);
     }
 }
