@@ -1,8 +1,8 @@
 // bladeファイルから変数を取得
 var homeUrl = window.homeUrl;
-var page1 = window.page1;
-var page2 = window.page2;
-var page3 = window.page3;
+// var page1 = window.page1;
+// var page2 = window.page2;
+// var page3 = window.page3;
 
 const hiroshimaStation = {
     lat: 34.3963,
@@ -14,22 +14,26 @@ var markerData = [ // マーカーを立てる場所名・緯度・経度
         name: '荷物が重すぎ...',
         lat: 34.392969358792556,
         lng: 132.4522613734255,
-        reward: 100,
+        reward: 500,
         url: 1
     }, {
         name: '犬を探してほしい',
         lat: 34.39231149487647,
         lng: 132.46196912400174,
-        reward: 100,
+        reward: 100000,
         url: 2
     }, {
         name: '電球変えたい',
         lat: 34.4041557914022,
         lng: 132.4755641284064,
-        reward: 100,
+        reward: 1000,
         url: 3
     }
 ];
+
+for (let i = 0; i < markerData.length; i++) {
+    eval('var page' + (i + 1) + ' = window.page' + (i + 1));
+}
 
 function initMap() {
     // 今の位置を取得
@@ -120,16 +124,11 @@ function initMap() {
                     });
 
                     let linkUrl;
-                    if (data.url === 1) {
-                        linkUrl = page1;
-                    } else if (data.url === 2) {
-                        linkUrl = page2;
-                    } else if (data.url === 3) {
-                        linkUrl = page3;
-                    } else {
-                        linkUrl = '#'; // 默认链接或空链接
+                    for (let i = 0; i < markerData.length; i++) {
+                        if (data.url === i + 1) {
+                            linkUrl = eval('page' + (i + 1));
+                        }
                     }
-                
 
                     marker.addListener('click', function() {
                         infoWindow.setPosition(marker.getPosition());
