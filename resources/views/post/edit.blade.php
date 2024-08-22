@@ -17,27 +17,30 @@
                             <div class="form-group row">
                                 <!-- タイトル -->
                                 <div class="col-md-6">
-                                    <p id="body" class="form-control @error('body') is-invalid @enderror" name="content" required>{{ old('content', $post->content) }}</p>
+                                <p id="title" class="form-control @error('title') is-invalid @enderror" name="title" required>{{ old('title', $post->title) }}</p>
+                                
                                 </div>
                             </div>
 
                             <div class="form-group my-4">    
-                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('内容') }}</p>
-                                <p name="content" id="content" rows="6" maxlength="200" class="w-full  border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></p>
+                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('内容') }}</p>
+                                <p id="body" class="form-control @error('body') is-invalid @enderror" name="content" required>{{ old('content', $post->content) }}</p>
                             </div>
-                               
+                            
+                            <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('報酬') }}</p>
+                            <div style="display: flex; align-items: baseline;">    
+                                <p type="text" name="title" id="title" maxlength="20" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="width: 100px; font-weight: bold;" required>{{ old('reward', $post->reward) }}</p>
+                                <span class="ml-2" style="font-weight: bold;">円</span>
+                            </div>
 
-                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('報酬') }}</p>
-                                <p name="reward" id="reward" rows="1" class="w-[10%] border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" style="resize: none;" required></p>
-
-                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('タグ') }}</p>
+                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('タグ') }}</p>
                                 <p style="margin-left: 20px; ">タグ：<span class="main_tag">ペット</span></p>  
                             
-                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('住所') }}</p>
-                                <p type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required></p>
+                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('住所') }}</p>
+                                <p type="text" name="address" id="address" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>{{ old('address', $post->address) }}</p>
 
-                                <p for="body" class="col-md-4 col-form-label text-md-right">{{ __('期限') }}</p>
-                                <p type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500"></p>
+                                <p for="body" class="col-md-4 col-form-label text-md-right" style="font-weight: bold;">{{ __('期限') }}</p>
+                                <p type="datetime-local" name="deadline" id="deadline" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500">{{ old('deadline', $post->deadline) }}</p>
 
                                 <div class="col-md-6">
                                     @error('body')
