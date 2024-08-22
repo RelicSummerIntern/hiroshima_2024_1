@@ -39,7 +39,7 @@ class PostController extends Controller
                 'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
             ],
         ]);
-        
+
         $post = new Post();
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
@@ -81,13 +81,45 @@ class PostController extends Controller
         $postsAccepting = Post::where('user_id', Auth::id())->doesntHave('acceptance')->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
         $postsOngoing = Post::where('user_id', Auth::id())->has('acceptance')->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
         $postsCompleted = Post::where('user_id', Auth::id())->has('acceptance')->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
-        return view('my-posts', compact('posts','postsAccepting', 'postsOngoing', 'postsCompleted'));
+        return view('my-posts', compact('posts', 'postsAccepting', 'postsOngoing', 'postsCompleted'));
+    }
+
+    public function myAccepteds()
+    {
+        $accepteds = Acceptance::where('user_id', Auth::id())->get();
+        $acceptedsOngoing = Acceptance::where('user_id', Auth::id())->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $acceptedsCompleted = Acceptance::where('user_id', Auth::id())->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        return view('my-accepteds', compact('accepteds', 'acceptedsOngoing', 'acceptedsCompleted'));
     }
 
     public function edit($id)
     {
         $post = Post::findOrFail($id);
         return view('post.edit', compact('post'));
+    }
+
+    // 投稿詳細表示用
+    public function detail($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.detail', [
+            'post' => $post,
+            'tag' => $tag,
+        ]);
+    }
+
+    // 受諾処理
+    public function acceptance($id)
+    {
+        $acceptance = new Acceptance();
+        $acceptance->is_completed = 1;
+        $acceptance->user_id = Auth::id();
+        $acceptance->post_id = $id;
+        $acceptance->save();
+
+        return redirect()->route('home')->with('success', '投稿を受諾しました');
     }
 
     public function update(Request $request, $id)
@@ -117,7 +149,7 @@ class PostController extends Controller
         logger("test");
 
         $post = Post::findOrFail($id);
-        
+
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];

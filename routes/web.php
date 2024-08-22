@@ -38,9 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/post/edit/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 
-    Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
+    Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
+    Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
 
+    Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
     Route::get('/post/acceptanceDetails/{id}', [PostController::class, 'acceptanceDetails'])->name('post.acceptanceDetails');
+    Route::get('/myaccepteds', [PostController::class, 'myAccepteds'])->name('myaccepteds');
 });
 
 require __DIR__ . '/auth.php';
