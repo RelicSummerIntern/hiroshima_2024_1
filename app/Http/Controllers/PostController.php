@@ -84,6 +84,14 @@ class PostController extends Controller
         return view('my-posts', compact('posts', 'postsAccepting', 'postsOngoing', 'postsCompleted'));
     }
 
+    public function myAccepteds()
+    {
+        $accepteds = Acceptance::where('user_id', Auth::id())->get();
+        $acceptedsOngoing = Acceptance::where('user_id', Auth::id())->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $acceptedsCompleted = Acceptance::where('user_id', Auth::id())->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        return view('my-accepteds', compact('accepteds', 'acceptedsOngoing', 'acceptedsCompleted'));
+    }
+
     public function edit($id)
     {
         $post = Post::findOrFail($id);
