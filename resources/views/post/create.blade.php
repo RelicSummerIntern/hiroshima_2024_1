@@ -41,7 +41,7 @@
                     <!-- タグ -->
                     <div class="mb-4">
                         <label label for="tag_id" class="block text-gray-700 text-sm font-bold mb-2">タグ</label>
-                        <select name="tag_id" id="tag_id">
+                        <select name="tag_id" id="tag_id" style="border-radius: 5px;">
                             <option value="">タグを選択</option>
                             <option value="1">手助け</option>
                             <option value="2">探し物</option>
