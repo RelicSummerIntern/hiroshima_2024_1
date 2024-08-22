@@ -4,7 +4,6 @@
             {{ __('投稿の編集') }}
         </h2>
     </x-slot>
-
     <div class="max-w-7xl mx-auto mt-10 sm:px-6 lg:px-8">
         <div class="my-4">
             <div class="bg-white shadow p-6 rounded-lg">
