@@ -40,8 +40,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
     Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
+    Route::get('/post/markAsComplete/{id}', [PostController::class, 'markAsComplete'])->name('post.markAsComplete');
 
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
+    Route::get('/post/acceptanceDetails/{id}', [PostController::class, 'acceptanceDetails'])->name('post.acceptanceDetails');
+    Route::get('/myaccepteds', [PostController::class, 'myAccepteds'])->name('myaccepteds');
 });
 
 require __DIR__ . '/auth.php';
