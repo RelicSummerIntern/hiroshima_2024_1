@@ -61,7 +61,7 @@
                     <!-- ボタン -->
                     <div class="flex justify-end">
                         <button type="submit" class="py-2 px-4 btn btn-primary">投稿する</button>
-                        <a href="{{ route('post.index') }}" class="py-2 px-4 ml-4 btn btn-secondary">キャンセル</a>
+                        <a href="{{ route('post.index', []) }}" class="py-2 px-4 ml-4 btn btn-secondary">キャンセル</a>
                     </div>
                 </form>
             </div>

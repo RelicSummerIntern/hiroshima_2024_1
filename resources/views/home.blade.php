@@ -34,10 +34,13 @@
                 @endphp
 
                 @foreach($combined as [$post, $tag])
+                @if($post['user_id'] == Auth::id() || $post['is_completed'] == 1 || $currentTime > $post['deadline'])
+                @continue
+                @else
                 @php
                 $deadline = \Carbon\Carbon::parse($post['deadline'])->format('Y/m/d H:i:s');
                 @endphp
-                <a href="{{ route('home') }}" style="text-decoration: none;">
+                <a href="{{ route('post.detail', ['id' => $post['id']]) }}" style="text-decoration: none;">
                     <div class="Recruitment_slot">
                         <div style="text-align: center; width: 100%;">
                             <h2>{{ $post['title']}}</h2>
@@ -57,6 +60,7 @@
                         <h5 style="margin-left: 20px;">タグ：<span class="main_tag">{{ $tag['tag_name'] ?? 'タグがありません' }}</span></h5>
                     </div>
                 </a>
+                @endif
                 @endforeach
 
             </div>

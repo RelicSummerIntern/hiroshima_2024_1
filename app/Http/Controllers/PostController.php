@@ -26,6 +26,7 @@ class PostController extends Controller
     // 投稿作成用
     public function store(Request $request)
     {
+        logger("test");
         $validatedData = $request->validate([
             'title' => 'required|string|max:20',
             'content' => 'required|string|max:200',
@@ -65,19 +66,24 @@ class PostController extends Controller
         $posts_id = Post::where('is_completed', 0)->orderBy('updated_at', 'desc')->pluck('id');
         $posttag = PostTag::whereIn('post_id', $posts_id)->pluck('tag_id');
         $tags = Tag::whereIn('id', $posttag)->get();
+        $acceptance = Acceptance::where('is_completed', 1)->pluck('post_id');
 
         $combined = array_map(null, $posts->toArray(), $tags->toArray());
 
         return view('home', [
             'combined' => $combined,
             'address' => $address,
+            'acceptance' => $acceptance,
         ]);
     }
 
     public function myPosts()
     {
         $posts = Post::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
-        return view('my-posts', compact('posts'));
+        $postsAccepting = Post::where('user_id', Auth::id())->doesntHave('acceptance')->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $postsOngoing = Post::where('user_id', Auth::id())->has('acceptance')->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $postsCompleted = Post::where('user_id', Auth::id())->has('acceptance')->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        return view('my-posts', compact('posts', 'postsAccepting', 'postsOngoing', 'postsCompleted'));
     }
 
     public function edit($id)
@@ -86,20 +92,67 @@ class PostController extends Controller
         return view('post.edit', compact('post'));
     }
 
+    // 投稿詳細表示用
+    public function detail($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.detail', [
+            'post' => $post,
+            'tag' => $tag,
+        ]);
+    }
+
+    // 受諾処理
+    public function acceptance($id)
+    {
+        $acceptance = new Acceptance();
+        $acceptance->is_completed = 1;
+        $acceptance->user_id = Auth::id();
+        $acceptance->post_id = $id;
+        $acceptance->save();
+
+        $post = Post::where('id', $id)->first();
+        $post->is_completed = 1;
+        $post->save();
+
+        return redirect()->route('home')->with('success', '投稿を受諾しました');
+    }
+
     public function update(Request $request, $id)
     {
+        logger($id);
+
         $validatedData = $request->validate([
-            'title' => 'required|string|max:10',
-            'content' => 'required|text|max:200',
+            // 'title' => 'required|string|max:10',
+            // 'content' => 'required|string|max:200',
+            // 'reward' => 'required|integer',
+            // 'tag_name' => 'required|string|in:option1,option2,option3',
+            // 'address' => 'required|string',
+            // 'deadline' => 'required|date',
+
+            'title' => 'required|string|max:20',
+            'content' => 'required|string|max:200',
             'reward' => 'required|integer',
-            'tag_name' => 'required|string|in:option1,option2,option3',
+            // 'tag_id' => 'required|integer',
             'address' => 'required|string',
-            'deadline' => 'required|date',
+            'deadline' => [
+                'required',
+                'date',
+                'after:' . now()->addMinutes(4)->format('Y-m-d H:i:s'),
+            ]
         ]);
 
+        logger("test");
+
         $post = Post::findOrFail($id);
+
         $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
+        $post->content = $validatedData['content'];
+        $post->reward = $validatedData['reward'];
+        $post->address = $validatedData['address'];
+        $post->deadline = $validatedData['deadline'];
         $post->save();
 
         return redirect()->route('myposts')->with('success', '投稿が更新されました');
