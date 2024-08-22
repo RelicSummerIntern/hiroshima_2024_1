@@ -1,11 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-<<<<<<< HEAD
-            {{ __('依頼投稿') }}
-=======
             {{ __('依頼詳細') }}
->>>>>>> 9530b1aa707b818e3f5671e35db8347a32939a24
         </h2>
     </x-slot>
 
@@ -53,30 +49,17 @@
                             </div>
 
                             <div class="form-group row mb-0">
-<<<<<<< HEAD
-                                <div class="col-md-8 offset-md-4">
-                                    <a href="{{ route('myposts') }}">
-                                        <button type="button" class="btn btn-primary">
-                                            {{ __('戻る') }}
-                                        </button>
-                                    </a>
-
-                                    <button type="acceptance" class="btn btn-primary">
-                                        {{ __('受諾') }}
-                                    </button>
-=======
                                 <div class="col-md-8 offset-md-4" style="margin: auto; display: flex; justify-content: space-around;">
                                     <a href="{{ route('myposts') }}">
-                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px;">
+                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
                                             {{ __('戻る') }}
                                         </button>
                                     </a>
                                     <a href="{{ route('myposts') }}">
-                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px;">
+                                        <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
                                             {{ __('受諾') }}
                                         </button>
                                     </a>
->>>>>>> 9530b1aa707b818e3f5671e35db8347a32939a24
                                 </div>
                             </div>
                         </form>

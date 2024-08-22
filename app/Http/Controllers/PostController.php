@@ -35,11 +35,14 @@ class PostController extends Controller
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
         $post->reward = $validatedData['reward'];
-        $post->tag_name = $validatedData['tag_name'];
         $post->address = $validatedData['address'];
         $post->deadline = $validatedData['deadline'];
         $post->user_id = Auth::id();
         $post->save();
+
+        $posttag = new PostTag();
+        $posttag -> tag_name = $validatedData['tag_name'];
+        
 
         return redirect()->route('post.index')->with('success', '投稿が作成されました');
     }
