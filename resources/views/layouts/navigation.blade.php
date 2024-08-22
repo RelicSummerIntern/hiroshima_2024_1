@@ -12,8 +12,14 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')" class="text-decoration-none">
-                        {{ __('掲示板') }}
+                    <x-nav-link :href="route('myposts')" :active="request()->routeIs('myposts')" class="text-decoration-none text-xl font-extrabold">
+                        {{ __('投稿管理') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')" class="text-decoration-none text-xl font-extrabold">
+                        {{ __('受諾管理') }}
                     </x-nav-link>
                 </div>
             </div>
