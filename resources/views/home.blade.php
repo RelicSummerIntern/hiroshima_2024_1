@@ -120,6 +120,10 @@
         window.page2 = page2;
         var page3 = "http://localhost/post/detail/3"
         window.page3 = page3;
+        var page4 = "http://localhost/post/detail/4"
+        window.page4 = page4;
+        var page5 = "http://localhost/post/detail/5"
+        window.page5 = page5;
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyATCiHn-q2ufKqlPMJaRqCvdQoK3_5zJk0&callback=initMap" async defer></script>
 

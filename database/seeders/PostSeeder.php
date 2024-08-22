@@ -52,7 +52,7 @@ class PostSeeder extends Seeder
             'content' => '仕事が忙しくて買い物に行けません。代わりに買い物をしていただける方を探しています。',
             'reward' => 3000,
             'deadline' => '2024-08-25 12:00:00',
-            'address' => "広島県広島市南区宇品町2丁目4−5",
+            'address' => "〒730-0014 広島県広島市中区上幟町2−22",
             'user_id' => $user->id,
             'is_completed' => 0
         ]);
@@ -62,7 +62,7 @@ class PostSeeder extends Seeder
             'content' => '引越しの手伝いをしていただける方を募集しています。力仕事が得意な方歓迎です。',
             'reward' => 5000,
             'deadline' => '2024-09-01 16:00:00',
-            'address' => "広島県広島市佐伯区五日市町2丁目6−7",
+            'address' => "〒732-0803 広島県広島市南区南蟹屋2丁目3−1",
             'user_id' => $user->id,
             'is_completed' => 0
         ]);

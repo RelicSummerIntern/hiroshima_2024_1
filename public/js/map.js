@@ -28,6 +28,18 @@ var markerData = [ // マーカーを立てる場所名・緯度・経度
         lng: 132.4755641284064,
         reward: 1000,
         url: 3
+    },{
+        name: '買い物の代行',
+        lat: 34.40024302267361,
+        lng:  132.46624166670338,
+        reward: 3000,
+        url: 4
+    },{
+        name: '買い物の代行',
+        lat: 34.39239213441988,
+        lng:   132.4846344316151,
+        reward: 5000,
+        url: 5
     }
 ];
 
@@ -56,19 +68,23 @@ function initMap() {
                 var userMarker = new google.maps.Marker({
                     position: userLocation,
                     map: map,
-                    title: 'あなたの位置'
+                    title: 'あなたの位置',
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        fillColor: '#FF3200', // 设置图标填充颜色
+                        fillOpacity: 1.0,
+                        strokeColor: '#000000', // 设置图标边框颜色
+                        strokeWeight: 2,
+                        scale: 10 // 设置图标大小
+                    }
                 });
 
                 // マーカーをクリックしたときの処理
                 userMarker.addListener('click', function() {
                     infoWindow.setPosition(userLocation);
                     infoWindow.setContent(`
-    <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333; padding: 10px; border: 2px solid #007bff; border-radius: 8px;">
         <h3 style="margin: 0; color: #007bff;">あなたの位置</h3>
-        <p style="margin: 5px 0;">ここに位置情報が表示されます。</p>
-        <a href="${homeUrl}" style="color: #007bff; text-decoration: none;" target="_blank">詳細はこちら</a>
-    </div>
-  `);
+`);
                     infoWindow.open(map, userMarker);
                 });
 
