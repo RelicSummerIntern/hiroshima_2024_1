@@ -91,7 +91,7 @@ class PostController extends Controller
             'title' => 'required|string|max:10',
             'content' => 'required|text|max:200',
             'reward' => 'required|integer',
-            'tag_name' => 'required|string',
+            'tag_name' => 'required|string|in:option1,option2,option3',
             'address' => 'required|string',
             'deadline' => 'required|date',
         ]);
