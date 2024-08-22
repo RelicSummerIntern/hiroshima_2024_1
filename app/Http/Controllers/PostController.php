@@ -102,12 +102,18 @@ class PostController extends Controller
     public function detail($id)
     {
         $post = Post::findOrFail($id);
-        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
-        $tag = Tag::whereIn('id', $posttag)->first();
-        return view('post.detail', [
-            'post' => $post,
-            'tag' => $tag,
-        ]);
+        if($post->acceptance){
+
+            return view('post.acceptanceDetails', compact('post'));
+        }
+        else {
+            $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+            $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.detail', [
+                'post' => $post,
+                'tag' => $tag,
+            ]);
+        }
     }
 
     // 受諾処理
