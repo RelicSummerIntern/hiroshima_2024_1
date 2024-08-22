@@ -55,7 +55,7 @@ class PostController extends Controller
         $posttag->post_id = $post->id;
         $posttag->save();
 
-        return redirect()->route('post.index')->with('success', '投稿が作成されました');
+        return redirect()->route('myposts')->with('success', '投稿が作成されました');
     }
 
     // home.blade.phpの投稿一覧表示用
@@ -86,22 +86,43 @@ class PostController extends Controller
         return view('my-posts', compact('posts', 'postsAccepting', 'postsOngoing', 'postsCompleted'));
     }
 
+    public function myAccepteds()
+    {
+        $accepteds = Acceptance::where('user_id', Auth::id())->get();
+        $acceptedsOngoing = Acceptance::where('user_id', Auth::id())->where('is_completed', False)->orderBy('updated_at', 'desc')->get();
+        $acceptedsCompleted = Acceptance::where('user_id', Auth::id())->where('is_completed', True)->orderBy('updated_at', 'desc')->get();
+        return view('my-accepteds', compact('accepteds', 'acceptedsOngoing', 'acceptedsCompleted'));
+    }
+
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.edit', compact('post'));
+        if($post->acceptance){
+            $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
+            $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.ongoing', compact('post', 'tag'));
+
+        } else{
+            return view('post.edit', compact('post'));
+        }
     }
 
     // 投稿詳細表示用
     public function detail($id)
     {
         $post = Post::findOrFail($id);
-        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
-        $tag = Tag::whereIn('id', $posttag)->first();
-        return view('post.detail', [
-            'post' => $post,
-            'tag' => $tag,
-        ]);
+        if($post->acceptance){
+
+            return view('post.acceptanceDetails', compact('post'));
+        }
+        else {
+            $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+            $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.detail', [
+                'post' => $post,
+                'tag' => $tag,
+            ]);
+        }
     }
 
     // 受諾処理
@@ -113,7 +134,7 @@ class PostController extends Controller
         $acceptance->post_id = $id;
         $acceptance->save();
 
-        return redirect()->route('home')->with('success', '投稿を受諾しました');
+        return redirect()->route('myaccepteds')->with('success', '投稿を受諾しました');
     }
 
     public function update(Request $request, $id)
@@ -160,5 +181,18 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
+    }
+
+    public function markAsComplete($id){
+        logger("test");
+        $post = Post::findOrFail($id);
+        $post->is_completed = True;
+        $post->save();
+        return redirect()->route('home')->with('success', '依頼が達成されました!');
+      
+    public function acceptanceDetails($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('post.acceptanceDetails', compact('post'));
     }
 }
