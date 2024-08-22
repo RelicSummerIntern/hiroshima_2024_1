@@ -97,12 +97,11 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        if($post->acceptance){
+        if ($post->acceptance) {
             $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
             $tag = Tag::whereIn('id', $posttag)->first();
             return view('post.ongoing', compact('post', 'tag'));
-
-        } else{
+        } else {
             return view('post.edit', compact('post'));
         }
     }
@@ -111,11 +110,10 @@ class PostController extends Controller
     public function detail($id)
     {
         $post = Post::findOrFail($id);
-        if($post->acceptance){
+        if ($post->acceptance) {
 
             return view('post.acceptanceDetails', compact('post'));
-        }
-        else {
+        } else {
             $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
             $tag = Tag::whereIn('id', $posttag)->first();
             return view('post.detail', [
@@ -183,13 +181,16 @@ class PostController extends Controller
         return redirect()->route('myposts')->with('success', '投稿が削除されました');
     }
 
-    public function markAsComplete($id){
+    public function markAsComplete($id)
+    {
         logger("test");
         $post = Post::findOrFail($id);
         $post->is_completed = True;
         $post->save();
         return redirect()->route('home')->with('success', '依頼が達成されました!');
-      
+    }
+
+
     public function acceptanceDetails($id)
     {
         $post = Post::findOrFail($id);
