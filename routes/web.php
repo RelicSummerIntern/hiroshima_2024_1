@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [PostController::class, 'allPosts'])->name('home');
+Route::get('/home', [PostController::class, 'allPosts'])->name('home');
 
-
-
+// Route::get('/home', function () {
+//     return view('home');
+// })->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
