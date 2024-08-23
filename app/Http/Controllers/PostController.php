@@ -189,6 +189,7 @@ class PostController extends Controller
         $post->is_completed = True;
         $post->save();
         return redirect()->route('home')->with('success', '依頼が達成されました!');
+    }
       
     public function acceptanceDetails($id)
     {

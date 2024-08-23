@@ -10,8 +10,8 @@
 	<input id="tab2" type="radio" name="tab_btn">
 
 	<div class="tab_area">
-		<label class="tab1_label" for="tab1">受諾待ち</label>
-		<label class="tab2_label" for="tab2">進行中</label>
+		<label class="tab1_label" for="tab1">進行中</label>
+		<label class="tab2_label" for="tab2">依頼完了</label>
 	</div>
 	<div class="panel_area">
 		<div id="panel1" class="tab_panel">
