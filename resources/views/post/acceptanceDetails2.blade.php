@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        <!-- 受託者の完了画面 -->
+        <!-- 投稿者の完了画面 -->
         <h2 class="font-extrabold text-gray-800 leading-tight" style="font-size: 40px;">
-            <!-- 受諾者の受諾画面 -->
             {{ __('依頼詳細') }}
         </h2>
     </x-slot>
@@ -62,17 +63,13 @@
                     </div>
 
                     <div class="form-group row mb-4">
-                        <div class="col-md-8 offset-md-4 " style="margin: auto; display: flex; justify-content: space-around;">
-                            <a href="{{ route('home') }}">
+                        <div class="col-md-8 offset-md-4" style="margin: auto; display: flex; justify-content: center;">
+                            <a href="{{ route('myaccepteds') }}">
                                 <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
                                     {{ __('戻る') }}
                                 </button>
                             </a>
-                            <a href="{{ route('post.acceptance', ['id' => $post->id]) }}">
-                                <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
-                                    {{ __('受諾') }}
-                                </button>
-                            </a>
+
                         </div>
                     </div>
                     </form>

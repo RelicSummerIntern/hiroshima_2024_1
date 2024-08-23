@@ -99,24 +99,31 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         if ($post->acceptance) {
             $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
-            // $tag = Tag::whereIn('id', $posttag)->first();
-            return view('post.ongoing', compact('post', 'posttag'));
+            $tag = Tag::whereIn('id', $posttag)->first();
+            return view('post.ongoing', compact('post', 'tag'));
         } else {
             $posttag = PostTag::where('post_id', $post->id)->first('tag_id');
             return view('post.edit', compact('post', 'posttag'));
         }
     }
 
+    public function ongoing2($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.ongoing2', compact('post', 'tag'));
+    }
+
     // 投稿詳細表示用
     public function detail($id)
     {
         $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
         if ($post->acceptance) {
-
-            return view('post.acceptanceDetails', compact('post'));
+            return view('post.acceptanceDetails', compact('post', 'tag'));
         } else {
-            $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
-            $tag = Tag::whereIn('id', $posttag)->first();
             // $acceptance = Acceptance::find($id);
             // if ($acceptance) {
             //     return $acceptance;
@@ -125,8 +132,28 @@ class PostController extends Controller
             // }
             return view('post.detail', [
                 'post' => $post,
-                'tag' => $tag,
-                // 'acceptance' => $acceptance,
+                'tag' => $tag
+            ]);
+        }
+    }
+
+    public function detail2($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        if ($post->acceptance) {
+            return view('post.acceptanceDetails2', compact('post', 'tag'));
+        } else {
+            // $acceptance = Acceptance::find($id);
+            // if ($acceptance) {
+            //     return $acceptance;
+            // } else {
+            //     return false;
+            // }
+            return view('post.detail', [
+                'post' => $post,
+                'tag' => $tag
             ]);
         }
     }
@@ -198,6 +225,24 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->is_completed = True;
         $post->save();
+
+        $acceptance = Acceptance::where('post_id', $id)->first();
+        if ($acceptance->is_completed == 1) {
+            return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+        } else {
+            return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+        }
+        // $acceptance->is_completed = True;
+        // $acceptance->save();
+        // return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+    }
+
+    public function markAsComplete2($id)
+    {
+        logger("test");
+        // $post = Post::findOrFail($id);
+        // $post->is_completed = True;
+        // $post->save();
 
         $acceptance = Acceptance::where('post_id', $id)->first();
         $acceptance->is_completed = True;

@@ -39,8 +39,12 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
+    Route::get('/post/detail2/{id}', [PostController::class, 'detail2'])->name('post.detail2');
     Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
     Route::get('/post/markAsComplete/{id}', [PostController::class, 'markAsComplete'])->name('post.markAsComplete');
+    Route::get('/post/markAsComplete2/{id}', [PostController::class, 'markAsComplete2'])->name('post.markAsComplete2');
+
+    Route::get('/post/ongoing2/{id}', [PostController::class, 'ongoing2'])->name('post.ongoing2');
 
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('myposts');
     Route::get('/post/acceptanceDetails/{id}', [PostController::class, 'acceptanceDetails'])->name('post.acceptanceDetails');
