@@ -107,6 +107,14 @@ class PostController extends Controller
         }
     }
 
+    public function ongoing2($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $post->id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        return view('post.ongoing2', compact('post', 'tag'));
+    }
+
     // 投稿詳細表示用
     public function detail($id)
     {
@@ -219,9 +227,27 @@ class PostController extends Controller
         $post->save();
 
         $acceptance = Acceptance::where('post_id', $id)->first();
+        if ($acceptance->is_completed == 1) {
+            return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+        } else {
+            return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+        }
+        // $acceptance->is_completed = True;
+        // $acceptance->save();
+        // return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+    }
+
+    public function markAsComplete2($id)
+    {
+        logger("test");
+        // $post = Post::findOrFail($id);
+        // $post->is_completed = True;
+        // $post->save();
+
+        $acceptance = Acceptance::where('post_id', $id)->first();
         $acceptance->is_completed = True;
         $acceptance->save();
-        return redirect()->route('myposts')->with('success', '依頼が達成されました!');
+        return redirect()->route('myaccepteds')->with('success', '依頼が達成されました!');
     }
 
     public function acceptanceDetails($id)
