@@ -21,7 +21,7 @@ class PostSeeder extends Seeder
             'title' => '荷物が重すぎ...',
             'content' => '荷物が重すぎて運べません。手伝ってください。',
             'reward' => 500,
-            'deadline' => '2024-09-23 18:00:00',
+            'deadline' => '2024-08-23 18:00:00',
             'address' => "広島県広島市中区本通10−1",
             'user_id' => $user->id,
             'is_completed' => 0
@@ -41,7 +41,7 @@ class PostSeeder extends Seeder
             'title' => '電球変えたい',
             'content' => '電球を交換したいのですが、どなたか手伝ってくれませんか？',
             'reward' => 1000,
-            'deadline' => '2024-08-26 19:00:00',
+            'deadline' => '2024-08-24 19:00:00',
             'address' => "広島県広島市東区二葉の里2丁目1−18",
             'user_id' => $user->id,
             'is_completed' => 0

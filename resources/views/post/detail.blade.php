@@ -63,7 +63,7 @@
 
                     <div class="form-group row mb-4">
                         <div class="col-md-8 offset-md-4 " style="margin: auto; display: flex; justify-content: space-around;">
-                            <a href="{{ route('myposts') }}">
+                            <a href="{{ route('home') }}">
                                 <button type="button" class="btn btn-primary" style="width: 150px; height: 60px; font-size: 20px; font-weight: bold;">
                                     {{ __('戻る') }}
                                 </button>
