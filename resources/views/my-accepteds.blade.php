@@ -24,7 +24,7 @@
                         <p class="text-gray-800">{{ $acceptedOngoing->post->updated_at }}</p>
 
                         <div class="mt-4 flex">
-                            <a href="{{ route('post.detail', ['id' => $acceptedOngoing->post->id]) }}" class="btn btn-primary mr-2"
+                            <a href="{{ route('post.detail2', ['id' => $acceptedOngoing->post->id]) }}" class="btn btn-primary mr-2"
                                 role="button">
                                 {{ __('詳細') }}
                             </a>
@@ -48,7 +48,7 @@
                         <p class="text-gray-800">{{ $acceptedCompleted->post->updated_at }}</p>
 
                         <div class="mt-4 flex">
-                            <a href="{{ route('post.detail', ['id' => $acceptedCompleted->post->id, 'tag' => $acceptedCompleted->post->tags]) }}" class="btn btn-primary mr-2"
+                            <a href="{{ route('post.detail2', ['id' => $acceptedCompleted->post->id, 'tag' => $acceptedCompleted->post->tags]) }}" class="btn btn-primary mr-2"
                                 role="button">
                                 {{ __('詳細') }}
                             </a>
