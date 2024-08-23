@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/post/store', [PostController::class, 'store'])->name('post.store');
     Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('/post/edit/{id}', [PostController::class, 'update'])->name('post.update');
-    Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 
+    Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
     Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
     Route::get('/post/markAsComplete/{id}', [PostController::class, 'markAsComplete'])->name('post.markAsComplete');

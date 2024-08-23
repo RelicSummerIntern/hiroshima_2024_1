@@ -19,16 +19,22 @@ class AcceptanceSeeder extends Seeder
         $post = Post::first();
         $user = User::first();
 
-        Acceptance::create([
-            'post_id' => $post->id,
-            'user_id' => $user->id,
-            'is_completed' => False
-        ]);
+        // Acceptance::create([
+        //     'post_id' => $post->id,
+        //     'user_id' => $user->id,
+        //     'is_completed' => False
+        // ]);
 
-        Acceptance::create([
-            'post_id' => $post->id,
-            'user_id' => $user->id,
-            'is_completed' => True
-        ]);
+        // Acceptance::create([
+        //     'post_id' => $post->id,
+        //     'user_id' => $user->id,
+        //     'is_completed' => True
+        // ]);
+
+        // Acceptance::create([
+        //     'post_id' => $post->id,
+        //     'user_id' => $user->id,
+        //     'is_completed' => False
+        // ]);
     }
 }

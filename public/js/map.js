@@ -1,8 +1,8 @@
 // bladeファイルから変数を取得
 var homeUrl = window.homeUrl;
-var page1 = window.page1;
-var page2 = window.page2;
-var page3 = window.page3;
+// var page1 = window.page1;
+// var page2 = window.page2;
+// var page3 = window.page3;
 
 const hiroshimaStation = {
     lat: 34.3963,
@@ -14,22 +14,38 @@ var markerData = [ // マーカーを立てる場所名・緯度・経度
         name: '荷物が重すぎ...',
         lat: 34.392969358792556,
         lng: 132.4522613734255,
-        reward: 100,
+        reward: 500,
         url: 1
     }, {
         name: '犬を探してほしい',
         lat: 34.39231149487647,
         lng: 132.46196912400174,
-        reward: 100,
+        reward: 100000,
         url: 2
     }, {
         name: '電球変えたい',
         lat: 34.4041557914022,
         lng: 132.4755641284064,
-        reward: 100,
+        reward: 1000,
         url: 3
+    },{
+        name: '買い物の代行',
+        lat: 34.40024302267361,
+        lng:  132.46624166670338,
+        reward: 3000,
+        url: 4
+    },{
+        name: '引越しの手伝い',
+        lat: 34.39239213441988,
+        lng:   132.4846344316151,
+        reward: 5000,
+        url: 5
     }
 ];
+
+for (let i = 0; i < markerData.length; i++) {
+    eval('var page' + (i + 1) + ' = window.page' + (i + 1));
+}
 
 function initMap() {
     // 今の位置を取得
@@ -52,19 +68,23 @@ function initMap() {
                 var userMarker = new google.maps.Marker({
                     position: userLocation,
                     map: map,
-                    title: 'あなたの位置'
+                    title: 'あなたの位置',
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        fillColor: '#FF3200', // 设置图标填充颜色
+                        fillOpacity: 1.0,
+                        strokeColor: '#000000', // 设置图标边框颜色
+                        strokeWeight: 2,
+                        scale: 10 // 设置图标大小
+                    }
                 });
 
                 // マーカーをクリックしたときの処理
                 userMarker.addListener('click', function() {
                     infoWindow.setPosition(userLocation);
                     infoWindow.setContent(`
-    <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333; padding: 10px; border: 2px solid #007bff; border-radius: 8px;">
         <h3 style="margin: 0; color: #007bff;">あなたの位置</h3>
-        <p style="margin: 5px 0;">ここに位置情報が表示されます。</p>
-        <a href="${homeUrl}" style="color: #007bff; text-decoration: none;" target="_blank">詳細はこちら</a>
-    </div>
-  `);
+`);
                     infoWindow.open(map, userMarker);
                 });
 
@@ -120,16 +140,11 @@ function initMap() {
                     });
 
                     let linkUrl;
-                    if (data.url === 1) {
-                        linkUrl = page1;
-                    } else if (data.url === 2) {
-                        linkUrl = page2;
-                    } else if (data.url === 3) {
-                        linkUrl = page3;
-                    } else {
-                        linkUrl = '#'; // 默认链接或空链接
+                    for (let i = 0; i < markerData.length; i++) {
+                        if (data.url === i + 1) {
+                            linkUrl = eval('page' + (i + 1));
+                        }
                     }
-                
 
                     marker.addListener('click', function() {
                         infoWindow.setPosition(marker.getPosition());

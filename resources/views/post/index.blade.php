@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-extrabold text-gray-800 leading-tight" style="font-size: 40px;">
             {{ __('投稿一覧') }}
         </h2>
     </x-slot>
@@ -18,22 +18,22 @@
 
         <div class="my-4">
             @if (!empty($posts))
-                <ul>
-                    @foreach ($posts as $post)
-                        <li class="mb-6 bg-white border rounded-lg p-4">
-                            <h3 class="text-lg font-bold mb-2 border-bottom">{{ $post->title }}</h3>
-                            <p class="text-gray-1000 mt-4">{{ $post->body }}</p>
-                            <div class="flex justify-between mt-8">
-                                <p class="text-gray-600">{{ $post->user->name }}</p>
-                                <p class="text-gray-600">{{ $post->updated_at }}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
+            <ul>
+                @foreach ($posts as $post)
+                <li class="mb-6 bg-white border rounded-lg p-4">
+                    <h3 class="text-lg font-bold mb-2 border-bottom">{{ $post->title }}</h3>
+                    <p class="text-gray-1000 mt-4">{{ $post->body }}</p>
+                    <div class="flex justify-between mt-8">
+                        <p class="text-gray-600">{{ $post->user->name }}</p>
+                        <p class="text-gray-600">{{ $post->updated_at }}</p>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
             @else
-                <div class="flex justify-center items-center h-full">
-                    <p class="text-lg text-gray-600">投稿はありません。</p>
-                </div>
+            <div class="flex justify-center items-center h-full">
+                <p class="text-lg text-gray-600">投稿はありません。</p>
+            </div>
             @endif
         </div>
     </div>
