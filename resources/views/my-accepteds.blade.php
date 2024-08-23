@@ -11,7 +11,7 @@
 
         <div class="tab_area">
             <label class="tab1_label" for="tab1">進行中</label>
-            <label class="tab2_label" for="tab2">受諾完了</label>
+            <label class="tab2_label" for="tab2">依頼完了</label>
         </div>
         <div class="panel_area">
             <div id="panel1" class="tab_panel">
@@ -24,7 +24,7 @@
                         <p class="text-gray-800">{{ $acceptedOngoing->post->updated_at }}</p>
 
                         <div class="mt-4 flex">
-                            <a href="{{ route('post.edit', ['id' => $acceptedOngoing->post->id]) }}" class="btn btn-primary mr-2"
+                            <a href="{{ route('post.detail2', ['id' => $acceptedOngoing->post->id]) }}" class="btn btn-primary mr-2"
                                 role="button">
                                 {{ __('詳細') }}
                             </a>
@@ -48,7 +48,7 @@
                         <p class="text-gray-800">{{ $acceptedCompleted->post->updated_at }}</p>
 
                         <div class="mt-4 flex">
-                            <a href="{{ route('post.acceptanceDetails', ['id' => $acceptedCompleted->post->id]) }}" class="btn btn-primary mr-2"
+                            <a href="{{ route('post.detail2', ['id' => $acceptedCompleted->post->id, 'tag' => $acceptedCompleted->post->tags]) }}" class="btn btn-primary mr-2"
                                 role="button">
                                 {{ __('詳細') }}
                             </a>

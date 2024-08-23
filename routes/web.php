@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/post/edit/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
+    Route::get('/post/detail2/{id}', [PostController::class, 'detail2'])->name('post.detail2');
     Route::get('/home/{id}', [PostController::class, 'acceptance'])->name('post.acceptance');
     Route::get('/post/markAsComplete/{id}', [PostController::class, 'markAsComplete'])->name('post.markAsComplete');
 
