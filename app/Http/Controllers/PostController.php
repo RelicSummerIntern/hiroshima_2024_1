@@ -129,6 +129,27 @@ class PostController extends Controller
         }
     }
 
+    public function detail2($id)
+    {
+        $post = Post::findOrFail($id);
+        $posttag = PostTag::where('post_id', $id)->pluck('tag_id');
+        $tag = Tag::whereIn('id', $posttag)->first();
+        if ($post->acceptance) {
+            return view('post.acceptanceDetails2', compact('post', 'tag'));
+        } else {
+            // $acceptance = Acceptance::find($id);
+            // if ($acceptance) {
+            //     return $acceptance;
+            // } else {
+            //     return false;
+            // }
+            return view('post.detail', [
+                'post' => $post,
+                'tag' => $tag
+            ]);
+        }
+    }
+
     // 受諾処理
     public function acceptance($id)
     {
@@ -200,7 +221,7 @@ class PostController extends Controller
         $acceptance = Acceptance::where('post_id', $id)->first();
         $acceptance->is_completed = True;
         $acceptance->save();
-        return redirect()->route('myaccepteds')->with('success', '依頼が達成されました!');
+        return redirect()->route('myposts')->with('success', '依頼が達成されました!');
     }
 
     public function acceptanceDetails($id)
